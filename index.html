@@ -1,0 +1,523 @@
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: default
+---
+
+<h1>
+    FlowDec: A flow-based full-band general audio codec with high perceptual quality
+</h1>
+
+<p class="left-align">
+    Simon Welker, Matthew Le, Ricky T. Q. Chen, Wei-Ning Hsu, Timo Gerkmann, Alexander Richard, Yi-Chiao Wu
+</p>
+<p class="left-align">
+    <a href="https://openreview.net/forum?id=uxDFlPGRLX">ICLR 2025</a>
+</p>
+
+<h2>
+    Abstract
+</h2>
+
+<p class="abstract">
+    We propose FlowDec <span class="reference" data-ref="flowdec"></span>, a neural full-band audio codec for general audio sampled at 48 kHz that combines non-adversarial codec training with a stochastic postfilter based on a novel conditional flow matching method. Compared to the prior work ScoreDec which is based on score matching, we generalize from speech to general audio and move from 24 kbit/s to as low as 4 kbit/s, while improving output quality and reducing the required postfilter DNN evaluations from 60 to 6 without any fine-tuning or distillation techniques. We provide theoretical insights and geometric intuitions for our approach in comparison to ScoreDec as well as another recent work that uses flow matching, and conduct ablation studies on our proposed components. We show that FlowDec is a competitive alternative to the recent GAN-dominated stream of neural codecs, achieving FAD scores better than those of the established GAN-based codec DAC and listening test scores that are on par, and producing qualitatively more natural reconstructions for speech and harmonic structures in music.
+</p>
+
+
+
+<h2>
+    Audio Examples (4.3-7.5 kbps)
+</h2>
+
+<p>
+    Below we present audio examples from FlowDec compared to
+    the official 44.1kHz DAC <span class="reference" data-ref="dac"></span>,
+    the retrained 48kHz DAC-75 <span class="reference" data-ref="flowdec"></span>,
+    ScoreDec <span class="reference" data-ref="scoredec"></span>,
+    EnCodec's 48kHz model and its 24kHz model <span class="reference" data-ref="encodec"></span>,
+    Multi-Band Diffusion at 24kHz <span class="reference" data-ref="mbd"></span>,
+    and the clean target.
+</p>
+
+<p>
+    For FlowDec, DAC, and DAC-75, we show both examples at a higher bitrate (7.0 - 7.75 kbps)
+    as well as at a lower bitrate (4.3 - 4.5 kbps). You can choose between Speech, Music and Audio Files.
+</p>
+
+<p>Select an audio file: &nbsp;&nbsp;
+    <select id="audioSelect0" onchange="playAudio0()">
+        <option value="Speech_EARS_1" selected="true">Speech (EARS) 1</option>
+        <option value="Speech_EARS_2">Speech (EARS) 2</option>
+        <option value="Speech_EARS_3">Speech (EARS) 3</option>
+        <option value="Speech_EARS_4">Speech (EARS) 4</option>
+        <option value="Speech_EARS_5">Speech (EARS) 5</option>
+        <option value="Music_Licensed_1">Music (Licensed) 1</option>
+        <option value="Music_Licensed_2">Music (Licensed) 2</option>
+        <option value="Music_Licensed_3">Music (Licensed) 3</option>
+        <option value="Music_Licensed_4">Music (Licensed) 4</option>
+        <option value="Music_Licensed_5">Music (Licensed) 5</option>
+        <option value="Sound_AudioSet_1">Sound (AudioSet) 1</option>
+        <option value="Sound_AudioSet_2">Sound (AudioSet) 2</option>
+        <option value="Sound_AudioSet_3">Sound (AudioSet) 3</option>
+        <option value="Sound_AudioSet_4">Sound (AudioSet) 4</option>
+        <option value="Sound_AudioSet_5">Sound (AudioSet) 5</option>
+    </select>
+</p>
+
+<p class="black">
+    Clean: <br>
+    <audio id="audioPlayer0Clean" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    FlowDec-75m (<strong>7.5 kbps</strong>) <span class="reference" data-ref="flowdec"></span>:<br>
+    <audio id="audioPlayer0FlowDec" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    FlowDec-75m (<strong>4.5 kbps</strong>) <span class="reference" data-ref="flowdec"></span>:<br>
+    <audio id="audioPlayer0FlowDec_45" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    DAC-75 (<strong>7.5 kbps</strong>) <span class="reference" data-ref="flowdec"></span>:<br>
+    <audio id="audioPlayer0DAC75" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    DAC-75 (<strong>4.5 kbps</strong>) <span class="reference" data-ref="flowdec"></span>:<br>
+    <audio id="audioPlayer0DAC75_45" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    Official DAC (44.1kHz, <strong>7.75 kbps</strong>) <span class="reference" data-ref="dac"></span>:<br>
+    <audio id="audioPlayer0DAC" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    Official DAC (44.1kHz, <strong>4.30 kbps</strong>) <span class="reference" data-ref="dac"></span>:<br>
+    <audio id="audioPlayer0DAC_43" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+</p>
+<p class="black">
+    ScoreDec (<strong>7.5 kbps</strong>) <span class="reference" data-ref="scoredec"></span>:<br>
+    <audio id="audioPlayer0ScoreDec" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    EnCodec (48 kHz, <strong>6.0 kbps</strong>) <span class="reference" data-ref="encodec"></span>:<br>
+    <audio id="audioPlayer0EnCodec48" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    EnCodec (24 kHz, <strong>6.0 kbps</strong>) <span class="reference" data-ref="encodec"></span>:<br>
+    <audio id="audioPlayer0EnCodec24" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    Multi-Band Diffusion (24 kHz, <strong>6.0 kbps</strong>) <span class="reference" data-ref="encodec"></span>:<br>
+    <audio id="audioPlayer0MBD" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+</p>
+
+<script>
+    function playAudio0() {
+        var audioPlayerClean = document.getElementById('audioPlayer0Clean');
+        var audioPlayerFlowDec = document.getElementById('audioPlayer0FlowDec');
+        var audioPlayerDAC75 = document.getElementById('audioPlayer0DAC75');
+        var audioPlayerDAC = document.getElementById('audioPlayer0DAC');
+        var audioPlayerScoreDec = document.getElementById('audioPlayer0ScoreDec');
+        var audioPlayerEnCodec48 = document.getElementById('audioPlayer0EnCodec48');
+        var audioPlayerEnCodec24 = document.getElementById('audioPlayer0EnCodec24');
+        var audioPlayerMBD = document.getElementById('audioPlayer0MBD');
+
+        var audioPlayerFlowDec_45 = document.getElementById('audioPlayer0FlowDec_45');
+        var audioPlayerDAC75_45 = document.getElementById('audioPlayer0DAC75_45');
+        var audioPlayerDAC_43 = document.getElementById('audioPlayer0DAC_43');
+
+        var selectedAudio = document.getElementById('audioSelect0').value;
+        if (selectedAudio) {
+            // Get the audio source
+            var audioSourceClean = audioPlayerClean.getElementsByTagName('source')[0];
+            var audioSourceFlowDec = audioPlayerFlowDec.getElementsByTagName('source')[0];
+            var audioSourceDAC75 = audioPlayerDAC75.getElementsByTagName('source')[0];
+            var audioSourceDAC = audioPlayerDAC.getElementsByTagName('source')[0];
+            var audioSourceScoreDec = audioPlayerScoreDec.getElementsByTagName('source')[0];
+            var audioSourceEnCodec48 = audioPlayerEnCodec48.getElementsByTagName('source')[0];
+            var audioSourceEnCodec24 = audioPlayerEnCodec24.getElementsByTagName('source')[0];
+            var audioSourceMBD = audioPlayerMBD.getElementsByTagName('source')[0];
+
+            var audioSourceFlowDec_45 = audioPlayerFlowDec_45.getElementsByTagName('source')[0];
+            var audioSourceDAC75_45 = audioPlayerDAC75_45.getElementsByTagName('source')[0];
+            var audioSourceDAC_43 = audioPlayerDAC_43.getElementsByTagName('source')[0];
+
+            // high-bitrate variants
+            audioSourceClean.src = "/FlowDec/assets/audios/tab0_" + selectedAudio + "_Clean.wav";
+            audioPlayerClean.load();
+            audioSourceFlowDec.src = "/FlowDec/assets/audios/tab0_" + selectedAudio + "_FlowDec_75m_NFE_6.wav";
+            audioPlayerFlowDec.load();
+            audioSourceDAC75.src = "/FlowDec/assets/audios/tab0_" + selectedAudio + "_DAC_75_48_kHz.wav";
+            audioPlayerDAC75.load();
+            audioSourceDAC.src = "/FlowDec/assets/audios/tab0_" + selectedAudio + "_Official_DAC_44_1_kHz_7_75_kbps.wav";
+            audioPlayerDAC.load();
+            audioSourceScoreDec.src = "/FlowDec/assets/audios/tab0_" + selectedAudio + "_ScoreDec_NFE_50.wav";
+            audioPlayerScoreDec.load();
+            audioSourceEnCodec48.src = "/FlowDec/assets/audios/tab0_" + selectedAudio + "_EnCodec_48_kHz_6_kbps.wav";
+            audioPlayerEnCodec48.load();
+            audioSourceEnCodec24.src = "/FlowDec/assets/audios/tab0_" + selectedAudio + "_EnCodec_24_kHz_6_kbps.wav";
+            audioPlayerEnCodec24.load();
+            audioSourceMBD.src = "/FlowDec/assets/audios/tab0_" + selectedAudio + "_MBD_24_kHz_6_kbps.wav";
+            audioPlayerMBD.load();
+
+            // lower-bitrate variants
+            audioSourceFlowDec_45.src = "/FlowDec/assets/audios/tab1_" + selectedAudio + "_FlowDec_75m_NFE_6.wav";
+            audioPlayerFlowDec_45.load();
+            audioSourceDAC75_45.src = "/FlowDec/assets/audios/tab1_" + selectedAudio + "_DAC_75_48_kHz.wav";
+            audioPlayerDAC75_45.load();
+            audioSourceDAC_43.src = "/FlowDec/assets/audios/tab1_" + selectedAudio + "_Official_DAC_44_1_kHz_4_30_kbps.wav";
+            audioPlayerDAC_43.load();
+        }
+    }
+
+    playAudio0();
+</script>
+
+
+<h2>
+    Low Feature Rate Audio Examples (4.0 kbps)
+</h2>
+
+<p>
+    Below we present audio examples from a low-feature-rate variant of FlowDec (FlowDec-25s) and a retrained DAC (DAC-25).
+    These operate at a feature rate of 25 Hz instead of around 75 Hz, and are aimed at generative audio tasks where low feature rates
+    are desirable for long-range sequence modeling.
+</p>
+
+<p>Select an audio file: &nbsp;&nbsp;
+    <select id="audioSelect1" onchange="playAudio1()">
+        <option value="Speech_EARS_1" selected="true">Speech (EARS) 1</option>
+        <option value="Speech_EARS_2">Speech (EARS) 2</option>
+        <option value="Speech_EARS_3">Speech (EARS) 3</option>
+        <option value="Speech_EARS_4">Speech (EARS) 4</option>
+        <option value="Speech_EARS_5">Speech (EARS) 5</option>
+        <option value="Music_Licensed_1">Music (Licensed) 1</option>
+        <option value="Music_Licensed_2">Music (Licensed) 2</option>
+        <option value="Music_Licensed_3">Music (Licensed) 3</option>
+        <option value="Music_Licensed_4">Music (Licensed) 4</option>
+        <option value="Music_Licensed_5">Music (Licensed) 5</option>
+        <option value="Sound_AudioSet_1">Sound (AudioSet) 1</option>
+        <option value="Sound_AudioSet_2">Sound (AudioSet) 2</option>
+        <option value="Sound_AudioSet_3">Sound (AudioSet) 3</option>
+        <option value="Sound_AudioSet_4">Sound (AudioSet) 4</option>
+        <option value="Sound_AudioSet_5">Sound (AudioSet) 5</option>
+    </select>
+</p>
+
+<p>
+    Clean: <br>
+    <audio id="audioPlayer1Clean" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    FlowDec-25s (4.0 kbps) <span class="reference" data-ref="flowdec"></span>:<br>
+    <audio id="audioPlayer1FlowDec" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+
+    DAC-25 (4.0 kbps) <span class="reference" data-ref="flowdec"></span>:<br>
+    <audio id="audioPlayer1DAC25" controls>
+        <source src="" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio><br>
+</p>
+
+
+<script>
+    function playAudio1() {
+        var audioPlayerClean = document.getElementById('audioPlayer1Clean');
+        var audioPlayerFlowDec = document.getElementById('audioPlayer1FlowDec');
+        var audioPlayerDAC25 = document.getElementById('audioPlayer1DAC25');
+
+        var selectedAudio = document.getElementById('audioSelect1').value;
+        if (selectedAudio) {
+            // Get the audio source
+            var audioSourceClean = audioPlayerClean.getElementsByTagName('source')[0];
+            var audioSourceFlowDec = audioPlayerFlowDec.getElementsByTagName('source')[0];
+            var audioSourceDAC25 = audioPlayerDAC25.getElementsByTagName('source')[0];
+
+            audioSourceClean.src = "/FlowDec/assets/audios/tab2_" + selectedAudio + "_Clean.wav";
+            audioPlayerClean.load();
+            audioSourceFlowDec.src = "/FlowDec/assets/audios/tab2_" + selectedAudio + "_FlowDec_25s_NFE_6.wav";
+            audioPlayerFlowDec.load();
+            audioSourceDAC25.src = "/FlowDec/assets/audios/tab2_" + selectedAudio + "_DAC_25_48_kHz.wav";
+            audioPlayerDAC25.load();
+        }
+    }
+
+    playAudio1();
+</script>
+
+
+
+<h2>
+    Metrics
+</h2>
+
+<p>
+    FlowDec achieves the following metrics at 7.5 kbps with 6 NFE (neural network evaluations), compared to ScoreDec and other baselines.
+    There is almost no drop in performance for FlowDec at 6 NFE compared to 50 NFE, while ScoreDec shows a significant drop.
+    We have used FlowDec at 6 NFE for all other evaluations and the audio examples shown above.
+</p>
+
+<div class="table-container">
+    <table style="width:100%; border-collapse: collapse;">
+        <caption style="caption-side: bottom; text-align: left; padding: 8px; font-style: italic;">
+            <strong>Table 1: Results on our test set.</strong> Values indicate the mean of the metrics over the test set.
+            The best results are highlighted in bold.
+        </caption>
+        <thead>
+            <tr style="border-top: 2px solid black; border-bottom: 2px solid black;">
+                <th></th>
+                <th style="text-align: right;">FAD x100</th>
+                <th style="text-align: right;">SI-SDR</th>
+                <th style="text-align: right;">fwSSNR</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>FlowDec (NFE = 50)</td>
+                <td style="text-align: right;"><strong>1.34</strong></td>
+                <td style="text-align: right;">7.41</td>
+                <td style="text-align: right;">15.65</td>
+            </tr>
+            <tr>
+                <td>FlowDec (NFE = 6)</td>
+                <td style="text-align: right;">1.62</td>
+                <td style="text-align: right;">7.55</td>
+                <td style="text-align: right;">15.46</td>
+            </tr>
+            <tr>
+                <td>ScoreDec (NFE = 50)</td>
+                <td style="text-align: right;">5.73</td>
+                <td style="text-align: right;">7.50</td>
+                <td style="text-align: right;">14.45</td>
+            </tr>
+            <tr>
+                <td>ScoreDec (NFE = 6)</td>
+                <td style="text-align: right;">145.30</td>
+                <td style="text-align: right;">-27.23</td>
+                <td style="text-align: right;">3.15</td>
+            </tr>
+            <tr>
+                <td>DAC-75</td>
+                <td style="text-align: right;">4.15</td>
+                <td style="text-align: right;">9.23</td>
+                <td style="text-align: right;">16.21</td>
+            </tr>
+            <tr>
+                <td>DAC 44.1kHz (7.75 kbps)</td>
+                <td style="text-align: right;">6.00</td>
+                <td style="text-align: right;"><strong>9.30</strong></td>
+                <td style="text-align: right;"><strong>16.46</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<h2 id="citation">
+    Citation
+</h2>
+
+<p>
+    If you use the dataset or any derivative of it, please cite our
+    <a href="https://openreview.net/forum?id=uxDFlPGRLX" target="_blank">paper</a>:
+</p>
+
+<div class="container">
+    <div class="inner-container" dir="auto" data-snippet-clipboard-copy-content="{% raw %}@inproceedings{
+    welker2025flowdec,
+    title={FlowDec: A flow-based full-band general audio codec with high perceptual quality},
+    author={Simon Welker and Matthew Le and Ricky T. Q. Chen and Wei-Ning Hsu and Timo Gerkmann and Alexander Richard and Yi-Chiao Wu},
+    booktitle={The Thirteenth International Conference on Learning Representations},
+    year={2025},
+    url={https://openreview.net/forum?id=uxDFlPGRLX}
+}{% endraw %}">
+<pre><code>{% raw %}@inproceedings{
+    welker2025flowdec,
+    title={FlowDec: A flow-based full-band general audio codec with high perceptual quality},
+    author={Simon Welker and Matthew Le and Ricky T. Q. Chen and Wei-Ning Hsu and Timo Gerkmann and Alexander Richard and Yi-Chiao Wu},
+    booktitle={The Thirteenth International Conference on Learning Representations},
+    year={2025},
+    url={https://openreview.net/forum?id=uxDFlPGRLX}
+}{% endraw %}</code></pre>
+    </div>
+    <button id="copyButton" class="highlight">
+        <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 16 16" width="16" class="octicon octicon-clippy">
+            <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path>
+            <path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+        </svg>
+    </button>
+</div>
+
+<script>
+    document.getElementById('copyButton').addEventListener('click', function() {
+        const codeContent = document.querySelector('div[data-snippet-clipboard-copy-content]').getAttribute('data-snippet-clipboard-copy-content');
+        navigator.clipboard.writeText(codeContent).then(function() {
+        }, function() {
+            alert('Failed to copy!');
+        });
+    });
+</script>
+
+<br>
+
+<h2>
+    References
+</h2>
+
+<ol id="refList" style="list-style-type: none; padding: 0;">
+    <!-- JavaScript will populate this list -->
+</ol>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const references = {
+            "flowdec": "S. Welker, M. Le, R. T. Q. Chen, W.-N. Hsu, and T. Gerkmann, A. Richard, Y.-C. Wu, “FlowDec: A flow-based full-band general audio codec with high perceptual quality,” in The Thirteenth International Conference on Learning Representations (ICLR), 2025.",
+
+            "dac": "R. Kumar, P. Seetharaman, A. Luebs, I. Kumar, and K. Kumar, “High-Fidelity Audio Compression with Improved RVQGAN,” in Advances in Neural Information Processing Systems (NeurIPS), 2023.",
+
+            "scoredec": "Y.-C. Wu, D. Marković, S. Krenn, I. D. Gebru, and A. Richard, “ScoreDec: A Phase-preserving High-Fidelity Audio Codec with A Generalized Score-based Diffusion Post-filter,” in IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), Seoul, Korea, pp. 361-365, 2024",
+
+            "encodec": "Alexandre Défossez, Jade Copet, Gabriel Synnaeve, and Yossi Adi, “High Fidelity Neural Audio Compression,” Transactions on Machine Learning Research, 2023.",
+
+            "mbd": "R. San Roman, Y. Adi, A. Deleforge, R. Serizel, G. Synnaeve, and A. Défossez, “From Discrete Tokens to High-Fidelity Audio Using Multi-Band Diffusion,” in Advances in Neural Information Processing Systems, 2023.",
+
+            "sgmseplus": "J. Richter, S. Welker, J.-M. Lemercier, B. Lay, and T. Gerkmann, “Speech enhancement and dereverberation with diffusion-based generative models,” IEEE/ACM Transactions on Audio, Speech, and Language Processing (TASLP), vol. 31, pp. 2351-2364, 2023.",
+        };
+
+        // Collect keys in order of their appearance, without duplication
+        const referenceElements = document.querySelectorAll('.reference');
+        const orderedKeys = [];
+        referenceElements.forEach(element => {
+            // Split the keys and iterate over them
+            const keys = element.dataset.ref.split(' ');
+            keys.forEach(key => {
+                // Add key if it's not already in the list to maintain first appearance order
+                if (!orderedKeys.includes(key) && references[key]) {
+                    orderedKeys.push(key);
+                }
+            });
+        });
+        let sortedReferences = {};
+        // Populate the sorted references object based on orderedKeys
+        orderedKeys.forEach(key => {
+            if (references[key]) {
+                sortedReferences[key] = references[key];
+            }
+        });
+
+        function changeId(element) {
+            // Change the id of the clicked element to the next one
+            key = element.id.split('-')[1];
+            elem = document.getElementById(`link-${key}`);
+            elem.href = `#${element.id}`;
+        }
+
+        const refList = document.getElementById('refList');
+        const refTotal = Object.keys(sortedReferences).length;
+        const maxWidth = `${Math.ceil(Math.log10(refTotal + 1)) * 10 + 5}px`;
+
+        Object.entries(sortedReferences).forEach(([key, ref], index) => {
+            const refNumber = index + 1;
+            const li = document.createElement('li');
+            li.id = `ref-${refNumber}`;
+            li.style.display = 'flex';
+            li.style.alignItems = 'baseline';
+            li.style.marginBottom = '5px';
+
+            const numberSpan = document.createElement('span');
+            numberSpan.style.fontWeight = 'regular';
+            numberSpan.style.minWidth = maxWidth;
+            numberSpan.style.textAlign = 'right';
+            numberSpan.style.marginRight = '10px';
+            numberSpan.style.whiteSpace = 'nowrap';
+
+            const numberLink = document.createElement('a');
+            numberLink.href = `#cite-${key}-0`;
+            numberLink.id = `link-${key}`;
+            numberLink.textContent = `[${refNumber}]`;
+            numberLink.style.textDecoration = 'none';
+            numberSpan.appendChild(numberLink);
+
+            const textSpan = document.createElement('span');
+            textSpan.textContent = ref;
+
+            li.appendChild(numberSpan);
+            li.appendChild(textSpan);
+            refList.appendChild(li);
+        });
+
+        referenceCounter = {};
+        // Making In-text references linkable and combine multiple references
+        document.querySelectorAll('.reference').forEach(span => {
+            const keys = span.getAttribute('data-ref').split(' ');
+            const refNumbers = keys.map(key => {
+                const index = Object.keys(sortedReferences).indexOf(key);
+                return index + 1;
+            });
+            keys.forEach((key, i) => {
+                if (referenceCounter[key] >= 0) {
+                    referenceCounter[key]++;
+                } else {
+                    referenceCounter[key] = 0;
+                }
+
+                // Set up string if there are multiple references
+                if (keys.length > 1) {
+                    if (i === 0) {
+                        refText = `[${refNumbers[i]}, `;
+                    } else if (i === keys.length - 1) {
+                        refText = `${refNumbers[i]}]`;
+                    } else {
+                        refText = `${refNumbers[i]}, `;
+                    }
+                // Set up string if there is only one reference
+                } else {
+                    refText = `[${refNumbers[i]}]`;
+                }
+
+                const citeId = `cite-${key}-${referenceCounter[key]}`;
+                const citeLink = document.createElement('a');
+                citeLink.href = `#ref-${refNumbers[i]}`;
+                citeLink.textContent = refText;
+                citeLink.id = citeId;
+                citeLink.style.textDecoration = 'none';
+                citeLink.addEventListener('click', function () {
+                    changeId(this);
+                });
+
+                span.appendChild(citeLink);
+            });
+        });
+
+    });
+</script>

@@ -1,0 +1,111 @@
+.abstract {
+    font-size: 90%;
+}
+audio {
+   width: 100%;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile devices */
+}
+html, body {
+    margin: 5px; /* Get rid of default margins */
+    padding: 5px; /* Get rid of default padding */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+th, td {
+    padding: 4px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 1em; /* Base font size */
+    white-space: nowrap;
+}
+p {
+    text-align: justify;
+    hyphens: auto;
+}
+div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+/* Define a class for left-aligned text */
+.left-align {
+    text-align: left;
+    hyphens: none;
+}
+.container {
+    max-width: 100%;
+    background-color: #f4f4f4;
+    align-items: left;
+    overflow-x: auto; /* Handle overflow */
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+}
+.inner-container {
+    width: calc(100% - 30px);
+    background-color: #f4f4f4;
+    align-items: left;
+    padding: 0;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative; /* Relative positioning for absolute child positioning */
+}
+pre {
+    width: calc(100% - 30px);
+    background-color: #f4f4f4;
+    border: 0;
+    padding: 0px;
+    overflow: auto;
+    border-radius: 0px;
+    margin: 0;
+}
+code {
+    font-family: monospace;
+    padding: 0px;
+    margin: 0;
+}
+.highlight {
+    cursor: pointer;
+    padding: 4px 4px;
+    background-color: #f4f4f4;
+    border: 0;
+    color: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    position: absolute;
+    top: 0; /* Position the button at the top */
+    right: 0; /* Position the button at the right edge */
+    margin: 5px; /* Small margin for aesthetics */
+}
+
+.highlight svg {
+    fill: #4e4e4e;
+    margin-right: 5px;
+}
+
+.highlight:hover {
+    background-color: #d3d3d3;
+}
+
+header {
+    background: #fff;
+    z-index: 10;
+}
+
+.wrapper {
+    width: 920px;
+}
+.wrapper section { width: 560px; }
+
+.black { color: black; }
