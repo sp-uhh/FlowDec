@@ -103,9 +103,24 @@ header {
     z-index: 10;
 }
 
-.wrapper {
-    width: 920px;
+@media screen and (min-width: 961px) {
+    .wrapper {
+        width: 920px;
+    }
+    section {
+        width: 560px;
+    }
 }
-.wrapper section { width: 560px; }
 
-.black { color: black; }
+.black {
+    color: black;
+}
+
+.smallmobile-only {
+    display: none;
+}
+@media screen and (max-width: 330px) {
+    .smallmobile-only {
+        display: inline;
+    }
+}
